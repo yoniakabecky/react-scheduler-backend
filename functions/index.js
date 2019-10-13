@@ -10,3 +10,4 @@
 // });
 
 module.exports.ping = require("./functions/ping");
+module.exports.createSchedule = require("./functions/createSchedule");
