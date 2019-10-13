@@ -9,4 +9,4 @@
 //     res.status(200).send("pong");
 // });
 
-module.exports.ping = require("./ping");
+module.exports.ping = require("./functions/ping");
