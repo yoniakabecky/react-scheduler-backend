@@ -1,13 +1,50 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
-// const functions = require('firebase-functions');
+const functions = require("firebase-functions");
 
-// // The Firebase Admin SDK to access the Firebase Realtime Database.
-// const admin = require('firebase-admin');
-// admin.initializeApp();
+const app = require("express")();
 
-// export const ping = functions.https.onRequest((_, res) => {
-//     res.status(200).send("pong");
-// });
+const FBAuth = require("./utils/fbAuth");
 
-module.exports.ping = require("./functions/ping");
-module.exports.createSchedule = require("./functions/createSchedule");
+const {
+  postOneSchedule,
+  getSchedule,
+  getMySchedules
+  // postSchedules,
+  // editSchedule,
+  // deleteSchedule,
+  // deleteSchedules
+} = require("./handlers/schedules");
+
+const {
+  signup,
+  signin
+  // uploadImage,
+  // addUserDetails,
+  // getUserDetails,
+  // getAvailabilities,
+  // postAvailabilities
+} = require("./handlers/employees");
+
+// TODO: make middleware for admin check
+
+// Schedules Routes
+app.post("/schedule", FBAuth, postOneSchedule); // admin
+app.get("/schedules/:scheduleId", FBAuth, getSchedule);
+// app.get("/schedules/:userName", FBAuth, getMySchedules);
+// app.post("/schedules", FBAuth, postSchedules); // admin
+// app.post("/schedules/:scheduleId", FBAuth, editSchedule); // admin
+// app.delete("/schedules/:scheduleId", FBAuth, deleteSchedule); // admin
+// app.delete("/schedules", FBAuth, deleteSchedules); // admin
+
+// Employees Routes
+app.post("/signup", signup);
+app.post("/signin", signin);
+// app.post("/user/image", FBAuth, uploadImage);
+// app.post('/user', FBAuth, addUserDetails);
+// app.get('/user/:userName', FBAuth, getUserDetails);
+// app.get("/user/:userName/availabilities", FBAuth, getAvailabilities);
+// app.post("/user/:userName/availabilities", FBAuth, postAvailabilities);
+
+// TODO: Companies Routes
+// app.post("/company/signup", FBAuth, addAnEmployee); // admin
+
+exports.api = functions.https.onRequest(app);
