@@ -36,3 +36,21 @@ exports.getSchedule = async (req, res) => {
     })
     .catch(err => console.error(err));
 };
+
+exports.getMySchedules = async (req, res) => {
+  await firestore
+    .collection("schedules")
+    .where("assignedTo", "==", req.body.userName)
+    .get()
+    .then(data => {
+      let schedules = [];
+      data.forEach(doc => {
+        schedules.push(doc.data());
+      });
+      return res.json(schedules);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};

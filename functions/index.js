@@ -28,8 +28,8 @@ const {
 
 // Schedules Routes
 app.post("/schedule", FBAuth, postOneSchedule); // admin
-app.get("/schedules/:scheduleId", FBAuth, getSchedule);
-// app.get("/schedules/:userName", FBAuth, getMySchedules);
+app.get("/schedules/schedule/:scheduleId", FBAuth, getSchedule);
+app.get("/schedules/mySchedules", FBAuth, getMySchedules);
 // app.post("/schedules", FBAuth, postSchedules); // admin
 // app.post("/schedules/:scheduleId", FBAuth, editSchedule); // admin
 // app.delete("/schedules/:scheduleId", FBAuth, deleteSchedule); // admin
