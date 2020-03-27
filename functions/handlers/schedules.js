@@ -54,3 +54,36 @@ exports.getMySchedules = async (req, res) => {
       res.status(500).json({ error: err.code });
     });
 };
+
+exports.getMonthSchedules = (req, res) => {
+  const { yyyy, mm } = req.params;
+  let day = `${yyyy}-${mm}`;
+
+  getSchedulesByDate(req, res, day);
+};
+
+exports.getDaySchedules = (req, res) => {
+  const { yyyy, mm, dd } = req.params;
+  let day = `${yyyy}-${mm}-${dd}`;
+
+  getSchedulesByDate(req, res, day);
+};
+
+const getSchedulesByDate = async (req, res, date) => {
+  await firestore
+    .collection("schedules")
+    .orderBy("startAt")
+    .get()
+    .then(data => {
+      let schedules = [];
+      data.forEach(doc => {
+        const startAt = doc.data().startAt;
+        if (startAt.startsWith(date)) schedules.push(doc.data());
+      });
+      return res.json(schedules);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
