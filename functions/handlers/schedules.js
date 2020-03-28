@@ -87,3 +87,23 @@ const getSchedulesByDate = async (req, res, date) => {
       res.status(500).json({ error: err.code });
     });
 };
+
+exports.deleteSchedule = (req, res) => {
+  const document = firestore.doc(`/schedules/${req.params.scheduleId}`);
+
+  await document
+    .get()
+    .then(doc => {
+      if (!doc.exists) {
+        return res.status(404).json({ error: "Schedule not found" });
+      }
+      return document.delete();
+    })
+    .then(() => {
+      return res.status(204).json({message: "Document deleted"});
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
