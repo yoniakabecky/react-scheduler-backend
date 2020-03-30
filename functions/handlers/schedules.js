@@ -88,7 +88,7 @@ const getSchedulesByDate = async (req, res, date) => {
     });
 };
 
-exports.deleteSchedule = (req, res) => {
+exports.deleteSchedule = async (req, res) => {
   const document = firestore.doc(`/schedules/${req.params.scheduleId}`);
 
   await document
@@ -100,10 +100,47 @@ exports.deleteSchedule = (req, res) => {
       return document.delete();
     })
     .then(() => {
-      return res.status(204).json({message: "Document deleted"});
+      return res.status(204).json({ message: "Document deleted" });
     })
     .catch(err => {
       console.error(err);
       return res.status(500).json({ error: err.code });
+    });
+};
+
+exports.editSchedule = async (req, res) => {
+  const { scheduleId } = req.params;
+  const {
+    startAt,
+    endAt,
+    assignedTo,
+    position,
+    companyName,
+    createdAt,
+    createdBy
+  } = req.body;
+
+  const document = firestore.doc(`/schedules/${scheduleId}`);
+
+  const schedule = {
+    startAt,
+    endAt,
+    assignedTo,
+    position,
+    companyName,
+    createdAt,
+    createdBy,
+    updatedAt: new Date().toISOString(),
+    updatedBy: req.user.userName
+  };
+
+  await document
+    .set(schedule)
+    .then(() => {
+      res.json({ message: `document ${scheduleId} updated successfully` });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "something went wrong" });
     });
 };

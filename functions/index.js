@@ -10,9 +10,9 @@ const {
   getMySchedules,
   getMonthSchedules,
   getDaySchedules,
-  deleteSchedule
+  deleteSchedule,
+  editSchedule
   // postSchedules,
-  // editSchedule,
 } = require("./handlers/schedules");
 
 const {
@@ -34,8 +34,8 @@ app.get("/schedules/mySchedules", FBAuth, getMySchedules);
 app.get("/schedules/mySchedules/month/:yyyy/:mm", FBAuth, getMonthSchedules);
 app.get("/schedules/mySchedules/day/:yyyy/:mm/:dd", FBAuth, getDaySchedules);
 app.delete("/schedules/schedule/:scheduleId", FBAuth, deleteSchedule); // admin
+app.put("/schedules/schedule/:scheduleId", FBAuth, editSchedule); // admin
 // app.post("/schedules", FBAuth, postSchedules); // admin
-// app.post("/schedules/:scheduleId", FBAuth, editSchedule); // admin
 
 // Employees Routes
 app.post("/signup", signup);
