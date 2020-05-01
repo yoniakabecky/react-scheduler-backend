@@ -17,7 +17,8 @@ const {
 
 const {
   signup,
-  signin
+  signin,
+  getAuthenticatedUser
   // uploadImage,
   // addUserDetails,
   // getUserDetails,
@@ -40,6 +41,7 @@ app.put("/schedules/schedule/:scheduleId", FBAuth, editSchedule); // admin
 // Employees Routes
 app.post("/signup", signup);
 app.post("/signin", signin);
+app.get("/user", FBAuth, getAuthenticatedUser);
 // app.post("/user/image", FBAuth, uploadImage);
 // app.post('/user', FBAuth, addUserDetails);
 // app.get('/user/:userName', FBAuth, getUserDetails);
