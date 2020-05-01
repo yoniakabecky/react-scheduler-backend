@@ -101,3 +101,19 @@ exports.signin = (req, res) => {
       return res.status(500).json({ error: err.code });
     });
 };
+
+exports.getAuthenticatedUser = (req, res) => {
+  let userData = {};
+
+  firestore.doc(`/employees/${req.user.userName}`)
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        userData.user = doc.data();
+        return res.json(userData);
+      } else {
+        return res.status(404).json({ error: "User not found" })
+      }
+    })
+    .catch(err => res.status(500).json({ error: err.code }));
+};
