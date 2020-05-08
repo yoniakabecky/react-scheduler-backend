@@ -7,7 +7,8 @@ const FBAuth = require("./utils/fbAuth");
 const {
   postOneSchedule,
   getSchedule,
-  getMySchedules,
+  getMySchedule,
+  getScheduleByUserName,
   getMonthSchedules,
   getDaySchedules,
   deleteSchedule,
@@ -31,7 +32,8 @@ const {
 // Schedules Routes
 app.post("/schedule", FBAuth, postOneSchedule); // admin
 app.get("/schedules/schedule/:scheduleId", FBAuth, getSchedule);
-app.get("/schedules/mySchedules", FBAuth, getMySchedules);
+app.get("/schedules/mySchedules", FBAuth, getMySchedule);
+app.post("/schedules/userSchedules", FBAuth, getScheduleByUserName);
 app.get("/schedules/mySchedules/month/:yyyy/:mm", FBAuth, getMonthSchedules);
 app.get("/schedules/mySchedules/day/:yyyy/:mm/:dd", FBAuth, getDaySchedules);
 app.delete("/schedules/schedule/:scheduleId", FBAuth, deleteSchedule); // admin
